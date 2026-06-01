@@ -665,7 +665,7 @@ footer{padding:40px 5%;border-top:1px solid var(--border);display:flex;justify-c
  <div class="pf-item"><div class="pf-check">&#10003;</div><div class="pf-txt active-feat">Screenshot upload</div></div>
  <div class="pf-item"><div class="pf-check">&#10003;</div><div class="pf-txt active-feat">Trading rules + score</div></div>
  </div>
- <button class="price-cta cta-main" onclick="alert('Stripe coming soon — sign up free in the meantime!')">Get Pro →</button>
+ <button class="price-cta cta-main" onclick="getProLink()">Get Pro →</button>
  <div class="price-refund">30-day money back guarantee</div>
  </div>
  <div class="price-card">
@@ -680,7 +680,7 @@ footer{padding:40px 5%;border-top:1px solid var(--border);display:flex;justify-c
  <div class="pf-item"><div class="pf-check">&#10003;</div><div class="pf-txt active-feat">Custom rule weighting</div></div>
  <div class="pf-item"><div class="pf-check">&#10003;</div><div class="pf-txt active-feat">White-label option</div></div>
  </div>
- <button class="price-cta cta-main" onclick="alert('Stripe coming soon — sign up free in the meantime!')">Get Elite →</button>
+ <button class="price-cta cta-main" onclick="getEliteLink()">Get Elite →</button>
  <div class="price-refund">30-day money back guarantee</div>
  </div>
  </div>
@@ -794,35 +794,41 @@ footer{padding:40px 5%;border-top:1px solid var(--border);display:flex;justify-c
 </footer>
 
 <script>
+var landingPeriod='monthly';
 function setPrice(p){
- document.getElementById('btn-monthly').classList.toggle('active',p==='monthly');
- document.getElementById('btn-annual').classList.toggle('active',p==='annual');
- document.getElementById('pro-price').textContent=p==='annual'?'$23':'$29';
- document.getElementById('elite-price').textContent=p==='annual'?'$39':'$49';
- document.getElementById('pro-per').textContent=p==='annual'?'per month, billed $276/year':'per month, billed monthly';
- document.getElementById('elite-per').textContent=p==='annual'?'per month, billed $468/year':'per month, billed monthly';
+  landingPeriod=p;
+  document.getElementById('btn-monthly').classList.toggle('active',p==='monthly');
+  document.getElementById('btn-annual').classList.toggle('active',p==='annual');
+  document.getElementById('pro-price').textContent=p==='annual'?'$23':'$29';
+  document.getElementById('elite-price').textContent=p==='annual'?'$39':'$49';
+  document.getElementById('pro-per').textContent=p==='annual'?'per month, billed $276/year':'per month, billed monthly';
+  document.getElementById('elite-per').textContent=p==='annual'?'per month, billed $468/year':'per month, billed monthly';
 }
-
+function getProLink(){
+  var links={monthly:'https://buy.stripe.com/4gM6oG5VOc4FcRHfmL0Fi00',annual:'https://buy.stripe.com/aFaaEWeskgkV5pfcaz0Fi02'};
+  window.location.href=links[landingPeriod];
+}
+function getEliteLink(){
+  var links={monthly:'https://buy.stripe.com/eVqcN46ZS9Wx7xngqP0Fi01',annual:'https://buy.stripe.com/aFaaEW5VO1q15pf7Uj0Fi03'};
+  window.location.href=links[landingPeriod];
+}
 function calcAff(){
- var subs=parseInt(document.getElementById('aff-slider').value);
- var plan=parseInt(document.getElementById('plan-slider').value);
- document.getElementById('sub-count').textContent=subs;
- document.getElementById('plan-avg').textContent=(plan===29?'Pro $29/mo':'Elite $49/mo');
- var monthly=Math.round(subs*plan*0.3);
- document.getElementById('aff-monthly').textContent='$'+monthly.toLocaleString();
- document.getElementById('aff-annual').textContent='$'+(monthly*12).toLocaleString();
+  var subs=parseInt(document.getElementById('aff-slider').value);
+  var plan=parseInt(document.getElementById('plan-slider').value);
+  document.getElementById('sub-count').textContent=subs;
+  document.getElementById('plan-avg').textContent=(plan===29?'Pro $29/mo':'Elite $49/mo');
+  var monthly=Math.round(subs*plan*0.3);
+  document.getElementById('aff-monthly').textContent='$'+monthly.toLocaleString();
+  document.getElementById('aff-annual').textContent='$'+(monthly*12).toLocaleString();
 }
-
 function toggleFaq(el){
- var isOpen=el.classList.contains('open');
- document.querySelectorAll('.faq-item').forEach(function(f){f.classList.remove('open');});
- if(!isOpen)el.classList.add('open');
+  var isOpen=el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(f){f.classList.remove('open');});
+  if(!isOpen)el.classList.add('open');
 }
-
-// Nav scroll effect
 window.addEventListener('scroll',function(){
- var nav=document.querySelector('nav');
- nav.style.background=window.scrollY>50?'rgba(4,6,5,0.95)':'rgba(4,6,5,0.85)';
+  var nav=document.querySelector('nav');
+  if(nav)nav.style.background=window.scrollY>50?'rgba(4,6,5,0.95)':'rgba(4,6,5,0.85)';
 });
 </script>
 </body>
